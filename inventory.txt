@@ -1,0 +1,8 @@
+1042,Keyboard,79.99,12
+1007,Mouse,24.50,31
+1098,Webcam,89.50,6
+1015,USB Hub,54.95,17
+1077,Monitor Arm,59.95,9
+1024,Desk Lamp,29.50,18
+1112,Laptop Dock,129.95,8
+1056,Office Chair,199.99,5
