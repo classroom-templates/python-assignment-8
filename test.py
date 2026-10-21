@@ -102,13 +102,13 @@ REQUIRED_FUNCTIONS = {
 
 def normalize_output(text):
     """
-        Normalize line endings and trailing whitespace for reliable text comparison.
+    Normalize line endings and trailing whitespace for reliable text comparison.
 
-        :param: text - Output or file-content string to normalize.
-        :raises: none
-        :return: Normalized string.
-        :note: Used to make comparisons consistent across operating systems.
-        """
+    :param: text - Output or file-content string to normalize.
+    :raises: none
+    :return: Normalized string.
+    :note: Used to make comparisons consistent across operating systems.
+    """
     text = text.replace("\r\n", "\n").replace("\r", "\n")
     result = "\n".join(
         line.rstrip() for line in text.strip().splitlines()
@@ -119,13 +119,13 @@ def normalize_output(text):
 
 def load_tree(filename):
     """
-        Read and parse one Python source file for structural testing.
+    Read and parse one Python source file for structural testing.
 
-        :param: filename - Python source filename located in the project directory.
-        :raises: AssertionError if the file is missing or contains a syntax error.
-        :return: Tuple containing the source text and parsed abstract syntax tree.
-        :note: none
-        """
+    :param: filename - Python source filename located in the project directory.
+    :raises: AssertionError if the file is missing or contains a syntax error.
+    :return: Tuple containing the source text and parsed abstract syntax tree.
+    :note: none
+    """
     path = PROJECT_DIR / filename
 
     if not path.exists():
@@ -146,13 +146,13 @@ def load_tree(filename):
 
 def get_function_nodes(tree):
     """
-        Collect the top-level function definitions from a parsed Python module.
+    Collect the top-level function definitions from a parsed Python module.
 
-        :param: tree - Parsed Python abstract syntax tree.
-        :raises: none
-        :return: Dictionary mapping function names to their AST nodes.
-        :note: Only top-level function definitions are collected.
-        """
+    :param: tree - Parsed Python abstract syntax tree.
+    :raises: none
+    :return: Dictionary mapping function names to their AST nodes.
+    :note: Only top-level function definitions are collected.
+    """
     functions = {}
 
     for node in tree.body:
@@ -164,13 +164,13 @@ def get_function_nodes(tree):
 
 def import_module_safely(module_name):
     """
-        Import a project module while capturing unexpected output during import.
+    Import a project module while capturing unexpected output during import.
 
-        :param: module_name - Importable project-module name without the .py suffix.
-        :raises: AssertionError if the module cannot be imported.
-        :return: Tuple containing the imported module and captured standard output.
-        :note: none
-        """
+    :param: module_name - Importable project-module name without the .py suffix.
+    :raises: AssertionError if the module cannot be imported.
+    :return: Tuple containing the imported module and captured standard output.
+    :note: none
+    """
     if str(PROJECT_DIR) not in sys.path:
         sys.path.insert(0, str(PROJECT_DIR))
 
@@ -193,13 +193,13 @@ def import_module_safely(module_name):
 
 def count_returns(function_node):
     """
-        Count the return statements contained in one function.
+    Count the return statements contained in one function.
 
-        :param: function_node - AST node representing a function definition.
-        :raises: none
-        :return: Integer number of return statements found.
-        :note: Used to verify the course single-return rule.
-        """
+    :param: function_node - AST node representing a function definition.
+    :raises: none
+    :return: Integer number of return statements found.
+    :note: Used to verify the course single-return rule.
+    """
     count = 0
 
     for node in ast.walk(function_node):
@@ -211,13 +211,13 @@ def count_returns(function_node):
 
 def contains_loop(function_node, loop_type=None):
     """
-        Determine whether a function contains the requested explicit loop type.
+    Determine whether a function contains the requested explicit loop type.
 
-        :param: function_node - AST function node; loop_type - "for", "while", or None.
-        :raises: none
-        :return: True if the requested loop is present; otherwise False.
-        :note: When loop_type is None, either a for or while loop is accepted.
-        """
+    :param: function_node - AST function node; loop_type - "for", "while", or None.
+    :raises: none
+    :return: True if the requested loop is present; otherwise False.
+    :note: When loop_type is None, either a for or while loop is accepted.
+    """
     result = False
 
     for node in ast.walk(function_node):
@@ -236,13 +236,13 @@ def contains_loop(function_node, loop_type=None):
 
 def contains_break_or_continue(function_node):
     """
-        Determine whether a function contains break or continue statements.
+    Determine whether a function contains break or continue statements.
 
-        :param: function_node - AST node representing a function definition.
-        :raises: none
-        :return: True if break or continue appears; otherwise False.
-        :note: Used to enforce the course loop-control standard.
-        """
+    :param: function_node - AST node representing a function definition.
+    :raises: none
+    :return: True if break or continue appears; otherwise False.
+    :note: Used to enforce the course loop-control standard.
+    """
     result = False
 
     for node in ast.walk(function_node):
@@ -254,13 +254,13 @@ def contains_break_or_continue(function_node):
 
 def called_simple_names(function_node):
     """
-        Collect simple function names called directly inside a function.
+    Collect simple function names called directly inside a function.
 
-        :param: function_node - AST node representing a function definition.
-        :raises: none
-        :return: Set of directly called simple function names.
-        :note: Attribute-style calls such as object.method() are not included.
-        """
+    :param: function_node - AST node representing a function definition.
+    :raises: none
+    :return: Set of directly called simple function names.
+    :note: Attribute-style calls such as object.method() are not included.
+    """
     calls = set()
 
     for node in ast.walk(function_node):
@@ -273,13 +273,13 @@ def called_simple_names(function_node):
 
 def has_standard_run_guard(tree):
     """
-        Check whether a module contains the standard course run guard.
+    Check whether a module contains the standard course run guard.
 
-        :param: tree - Parsed abstract syntax tree for main.py.
-        :raises: none
-        :return: True if the standard run guard calls main(); otherwise False.
-        :note: The expected form is if __name__ == "__main__": main().
-        """
+    :param: tree - Parsed abstract syntax tree for main.py.
+    :raises: none
+    :return: True if the standard run guard calls main(); otherwise False.
+    :note: The expected form is if __name__ == "__main__": main().
+    """
     result = False
 
     for node in tree.body:
@@ -317,13 +317,13 @@ def has_standard_run_guard(tree):
 
 def write_temp_inventory(directory, text):
     """
-        Create an alternate inventory file for isolated file-I/O testing.
+    Create an alternate inventory file for isolated file-I/O testing.
 
-        :param: directory - Directory for the file; text - contents to write.
-        :raises: OSError if the file cannot be written.
-        :return: Path to the created temporary inventory file.
-        :note: Creates inventory_alt.txt inside the supplied directory.
-        """
+    :param: directory - Directory for the file; text - contents to write.
+    :raises: OSError if the file cannot be written.
+    :return: Path to the created temporary inventory file.
+    :note: Creates inventory_alt.txt inside the supplied directory.
+    """
     path = Path(directory) / "inventory_alt.txt"
     path.write_text(text, encoding="utf-8")
     return path
@@ -331,13 +331,13 @@ def write_temp_inventory(directory, text):
 
 def test_01_required_files():
     """
-        Verify that all required Assignment 8 project files exist.
+    Verify that all required Assignment 8 project files exist.
 
-        :param: none
-        :raises: AssertionError if a required project file is missing.
-        :return: None
-        :note: none
-        """
+    :param: none
+    :raises: AssertionError if a required project file is missing.
+    :return: None
+    :note: none
+    """
     for filename in REQUIRED_FILES:
         assert (PROJECT_DIR / filename).exists(), (
             f"Missing required file: {filename}"
@@ -346,13 +346,13 @@ def test_01_required_files():
 
 def test_02_required_functions_and_signatures():
     """
-        Verify required functions and their exact parameter lists.
+    Verify required functions and their exact parameter lists.
 
-        :param: none
-        :raises: AssertionError if a required function or signature is incorrect.
-        :return: None
-        :note: none
-        """
+    :param: none
+    :raises: AssertionError if a required function or signature is incorrect.
+    :return: None
+    :note: none
+    """
     for module_name, functions in REQUIRED_FUNCTIONS.items():
         _, tree = load_tree(f"{module_name}.py")
         nodes = get_function_nodes(tree)
@@ -384,13 +384,13 @@ def test_02_required_functions_and_signatures():
 
 def test_03_run_guard_and_safe_imports():
     """
-        Verify the standard run guard and confirm project modules import safely.
+    Verify the standard run guard and confirm project modules import safely.
 
-        :param: none
-        :raises: AssertionError if the run guard is incorrect or an import produces output.
-        :return: None
-        :note: none
-        """
+    :param: none
+    :raises: AssertionError if the run guard is incorrect or an import produces output.
+    :return: None
+    :note: none
+    """
     _, main_tree = load_tree("main.py")
 
     assert has_standard_run_guard(main_tree), (
@@ -414,13 +414,13 @@ def test_03_run_guard_and_safe_imports():
 
 def test_04_read_inventory_parses_records_and_types():
     """
-        Verify that read_inventory() parses alternate data into the required records.
+    Verify that read_inventory() parses alternate data into the required records.
 
-        :param: none
-        :raises: AssertionError if parsed values or field types are incorrect.
-        :return: None
-        :note: Uses a temporary alternate input file so hardcoded answers do not pass.
-        """
+    :param: none
+    :raises: AssertionError if parsed values or field types are incorrect.
+    :return: None
+    :note: Uses a temporary alternate input file so hardcoded answers do not pass.
+    """
     inventory_io, _ = import_module_safely("inventory_io")
 
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -456,13 +456,13 @@ def test_04_read_inventory_parses_records_and_types():
 
 def test_05_linear_search_behavior():
     """
-        Verify linear search for targets in several positions and for an absent ID.
+    Verify linear search for targets in several positions and for an absent ID.
 
-        :param: none
-        :raises: AssertionError if linear search returns an incorrect index.
-        :return: None
-        :note: Tests first, middle, last, and absent product IDs.
-        """
+    :param: none
+    :raises: AssertionError if linear search returns an incorrect index.
+    :return: None
+    :note: Tests first, middle, last, and absent product IDs.
+    """
     algorithms, _ = import_module_safely("algorithms")
 
     records = [
@@ -480,13 +480,13 @@ def test_05_linear_search_behavior():
 
 def test_06_linear_search_required_structure():
     """
-        Verify that linear search uses the required while-loop structure.
+    Verify that linear search uses the required while-loop structure.
 
-        :param: none
-        :raises: AssertionError if the function lacks the required while loop or uses break/continue.
-        :return: None
-        :note: none
-        """
+    :param: none
+    :raises: AssertionError if the function lacks the required while loop or uses break/continue.
+    :return: None
+    :note: none
+    """
     _, tree = load_tree("algorithms.py")
     node = get_function_nodes(tree)["linear_search_by_id"]
 
@@ -501,13 +501,13 @@ def test_06_linear_search_required_structure():
 
 def test_07_selection_sort_behavior():
     """
-        Verify Selection Sort with ordinary, sorted, and reverse-sorted records.
+    Verify Selection Sort with ordinary, sorted, and reverse-sorted records.
 
-        :param: none
-        :raises: AssertionError if the records are not sorted correctly by product ID.
-        :return: None
-        :note: none
-        """
+    :param: none
+    :raises: AssertionError if the records are not sorted correctly by product ID.
+    :return: None
+    :note: none
+    """
     algorithms, _ = import_module_safely("algorithms")
 
     ordinary = [
@@ -538,13 +538,13 @@ def test_07_selection_sort_behavior():
 
 def test_08_selection_sort_in_place_and_preserves_records():
     """
-        Verify that Selection Sort mutates the supplied list without losing records.
+    Verify that Selection Sort mutates the supplied list without losing records.
 
-        :param: none
-        :raises: AssertionError if the function returns a new collection, loses records, or fails to mutate in place.
-        :return: None
-        :note: Sorting may change order but must not change collection membership.
-        """
+    :param: none
+    :raises: AssertionError if the function returns a new collection, loses records, or fails to mutate in place.
+    :return: None
+    :note: Sorting may change order but must not change collection membership.
+    """
     algorithms, _ = import_module_safely("algorithms")
 
     records = [
@@ -572,13 +572,13 @@ def test_08_selection_sort_in_place_and_preserves_records():
 
 def test_09_selection_sort_required_structure():
     """
-        Verify the required nested-loop Selection Sort implementation.
+    Verify the required nested-loop Selection Sort implementation.
 
-        :param: none
-        :raises: AssertionError if nested loops are missing or prohibited sorting/control-flow features are used.
-        :return: None
-        :note: Prohibits sorted(), list.sort(), break, and continue.
-        """
+    :param: none
+    :raises: AssertionError if nested loops are missing or prohibited sorting/control-flow features are used.
+    :return: None
+    :note: Prohibits sorted(), list.sort(), break, and continue.
+    """
     source, tree = load_tree("algorithms.py")
     node = get_function_nodes(tree)["selection_sort_by_id"]
 
@@ -618,13 +618,13 @@ def test_09_selection_sort_required_structure():
 
 def test_10_original_order_can_be_preserved_with_copy():
     """
-        Verify that sorting a copied list preserves the original record order.
+    Verify that sorting a copied list preserves the original record order.
 
-        :param: none
-        :raises: AssertionError if the original list changes or the copied list is sorted incorrectly.
-        :return: None
-        :note: Reinforces copying and in-place mutation.
-        """
+    :param: none
+    :raises: AssertionError if the original list changes or the copied list is sorted incorrectly.
+    :return: None
+    :note: Reinforces copying and in-place mutation.
+    """
     algorithms, _ = import_module_safely("algorithms")
 
     records = [
@@ -647,13 +647,13 @@ def test_10_original_order_can_be_preserved_with_copy():
 
 def test_11_binary_search_behavior():
     """
-        Verify binary search for first, middle, last, and absent product IDs.
+    Verify binary search for first, middle, last, and absent product IDs.
 
-        :param: none
-        :raises: AssertionError if binary search returns an incorrect index.
-        :return: None
-        :note: The supplied records are already sorted by product ID.
-        """
+    :param: none
+    :raises: AssertionError if binary search returns an incorrect index.
+    :return: None
+    :note: The supplied records are already sorted by product ID.
+    """
     algorithms, _ = import_module_safely("algorithms")
 
     records = [
@@ -672,13 +672,13 @@ def test_11_binary_search_behavior():
 
 def test_12_binary_search_required_structure():
     """
-        Verify that binary search uses the required iterative while-loop design.
+    Verify that binary search uses the required iterative while-loop design.
 
-        :param: none
-        :raises: AssertionError if iterative logic is missing, break/continue is used, or the function sorts internally.
-        :return: None
-        :note: none
-        """
+    :param: none
+    :raises: AssertionError if iterative logic is missing, break/continue is used, or the function sorts internally.
+    :return: None
+    :note: none
+    """
     _, tree = load_tree("algorithms.py")
     node = get_function_nodes(tree)["binary_search_by_id"]
 
@@ -700,13 +700,13 @@ def test_12_binary_search_required_structure():
 
 def test_13_single_return_rule():
     """
-        Verify that required functions contain no more than one return statement.
+    Verify that required functions contain no more than one return statement.
 
-        :param: none
-        :raises: AssertionError if any required function violates the single-return rule.
-        :return: None
-        :note: none
-        """
+    :param: none
+    :raises: AssertionError if any required function violates the single-return rule.
+    :return: None
+    :note: none
+    """
     for module_name, functions in REQUIRED_FUNCTIONS.items():
         _, tree = load_tree(f"{module_name}.py")
         nodes = get_function_nodes(tree)
@@ -722,13 +722,13 @@ def test_13_single_return_rule():
 
 def test_14_write_report_contents():
     """
-        Verify that write_report() creates the required report from alternate data.
+    Verify that write_report() creates the required report from alternate data.
 
-        :param: none
-        :raises: AssertionError if report contents or return behavior are incorrect.
-        :return: None
-        :note: Uses a temporary output file.
-        """
+    :param: none
+    :raises: AssertionError if report contents or return behavior are incorrect.
+    :return: None
+    :note: Uses a temporary output file.
+    """
     inventory_io, _ = import_module_safely("inventory_io")
 
     original_records = [
@@ -795,13 +795,13 @@ Sorted by Product ID
 
 def test_15_complete_program_behavior():
     """
-        Verify the complete application from execution through report creation.
+    Verify the complete application from execution through report creation.
 
-        :param: none
-        :raises: AssertionError if the program fails, report output is incorrect, or inventory.txt is modified.
-        :return: None
-        :note: Verifies the console confirmation and generated report file.
-        """
+    :param: none
+    :raises: AssertionError if the program fails, report output is incorrect, or inventory.txt is modified.
+    :return: None
+    :note: Verifies the console confirmation and generated report file.
+    """
     inventory_path = PROJECT_DIR / "inventory.txt"
     original_inventory = inventory_path.read_text(encoding="utf-8")
     report_path = PROJECT_DIR / "inventory_report.txt"
@@ -891,13 +891,13 @@ TESTS = [
 
 def main():
     """
-        Run all supplied Assignment 8 tests and display the results.
+    Run all supplied Assignment 8 tests and display the results.
 
-        :param: none
-        :raises: none
-        :return: Integer status code 0 after the test run completes.
-        :note: none
-        """
+    :param: none
+    :raises: none
+    :return: Integer status code 0 after the test run completes.
+    :note: none
+    """
     print("Assignment 8 Tests")
     print()
 
